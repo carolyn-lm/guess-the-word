@@ -69,6 +69,7 @@ const validateInput = function (input) {
 };
 
 
+//Make sure this is a new guess and then update display
 const makeGuess = function (guess) {
     //make sure guess is uppercase
     const newGuess = guess.toUpperCase();
@@ -76,9 +77,52 @@ const makeGuess = function (guess) {
     if (guessedLetters.includes(newGuess)) {
         message.innerText = "You've already guessed that letter, try again.";
     } else {
-        //new guess, save to list of letters guessed
+        //new guess, save to list of letters guessed and update display
         guessedLetters.push(newGuess);
-        console.log(guessedLetters);
+        updateLettersGuessed();
+        updateWord(guessedLetters);
     }
 
+};
+
+//display list of all letters guessed so far
+const updateLettersGuessed = function () {
+    guessedLettersList.innerHTML = "";
+    for (let letter of guessedLetters) {
+        const li = document.createElement("li");
+        li.innerText = letter;
+        guessedLettersList.append(li);
+    }
+};
+
+//update word display to show any correctly guessed letters
+const updateWord = function (guessedLetters) {
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    const updatedWordArray = [];
+
+    //create new array of letters which contains any correctly guessed letters and placeholders for those not yet guessed
+    for (let letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            //guess is in word, display
+            updatedWordArray.push(letter);
+        } else {
+            //otherwise, keep the placeholder
+            updatedWordArray.push("●");
+        }
+    }
+
+    //update display of word, convert updatedWordArray to a string
+    wordDisplay.innerText = updatedWordArray.join("");
+    checkForWin();
+
+};
+
+//Check if they have guessed all the letters
+const checkForWin = function () {
+    //see if word displayed matches the original word
+    if (wordDisplay.innerText === word.toUpperCase()) {
+        message.classList.add("win");
+        message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
+    }
 };
