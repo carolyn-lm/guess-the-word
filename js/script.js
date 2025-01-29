@@ -76,13 +76,13 @@ const validateInput = function (input) {
     const acceptedLetter = /[a-zA-Z]/;
     if (input.length === 0) {
         //no value in input
-        message.innerText = "Please enter a letter from A to Z (1)";
+        message.innerText = "Please enter a letter from A to Z";
     } else if (input.length > 1) {
         //entered more than one letter
-        message.innerText = "Please enter a letter from A to Z (2)";
+        message.innerText = "Please enter a letter from A to Z";
     } else if (input.match(acceptedLetter) === null) {
         //not a letter
-        message.innerText = "Please enter a letter from A to Z (3)";
+        message.innerText = "Please enter a letter from A to Z";
     } else {
         //valid guess, return
         return input;
